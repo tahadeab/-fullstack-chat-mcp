@@ -1,5 +1,10 @@
 # 💬 Real-time Chat Application
 
+[![Backend CI](https://github.com/tahadeab/-fullstack-chat-mcp/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/tahadeab/-fullstack-chat-mcp/actions/workflows/backend-ci.yml)
+[![Frontend CI](https://github.com/tahadeab/-fullstack-chat-mcp/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/tahadeab/-fullstack-chat-mcp/actions/workflows/frontend-ci.yml)
+[![Docker CI](https://github.com/tahadeab/-fullstack-chat-mcp/actions/workflows/docker-ci.yml/badge.svg)](https://github.com/tahadeab/-fullstack-chat-mcp/actions/workflows/docker-ci.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 A full-stack real-time messaging application with **React**, **Node.js**, **PostgreSQL**, **Socket.io**, and **MCP** (Model Context Protocol) integration for AI assistant features.
 
 ## ✨ Features

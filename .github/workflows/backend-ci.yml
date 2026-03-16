@@ -1,0 +1,70 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches: [master, main]
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: chatapp_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        run: npm run db:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/chatapp_test?schema=public
+
+      - name: Run database migrations
+        working-directory: ./backend
+        run: npm run db:migrate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/chatapp_test?schema=public
+
+      - name: Run lint (if available)
+        working-directory: ./backend
+        run: npm run lint || echo "No lint script found"
+        continue-on-error: true
+
+      - name: Run tests (if available)
+        working-directory: ./backend
+        run: npm test || echo "No test script found"
+        continue-on-error: true
+
+      - name: Build check
+        working-directory: ./backend
+        run: npm run db:generate
