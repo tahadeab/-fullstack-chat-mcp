@@ -278,4 +278,3 @@ MIT License - feel free to use this project for learning or production!
 
 ---
 
-**Built with ❤️ using Qwen Code CLI**
